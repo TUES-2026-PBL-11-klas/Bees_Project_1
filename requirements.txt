@@ -1,0 +1,23 @@
+# Web Framework
+fastapi
+uvicorn[standard]
+
+# Database 
+sqlalchemy
+psycopg2-binary
+alembic
+
+# Data and Settings
+pydantic
+pydantic-settings
+python-dotenv
+email-validator
+
+# Tests
+requests
+pytest
+httpx
+
+# Security
+passlib[bcrypt]
+python-jose[cryptography]

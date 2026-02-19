@@ -1,0 +1,38 @@
+# Python compiled files
+__pycache__/
+*.py[codz]
+*$py.class
+
+# Distribution / packaging
+.Python
+build/  
+
+# Virtual Environments
+venv/
+env/
+.venv/
+
+# Environment Variables (Passwords; Secrets; etc.)
+.env
+.env.local
+
+# Allowing .env.example file 
+!.env.example
+
+# Database data
+postgres_data/
+pgdata/
+
+# Not imposing our settings
+
+# IDE Settings
+.vscode/
+.idea/
+
+# OS Files
+
+# For Mac
+.DS_Store
+
+#For Windows
+Thumbs.db
