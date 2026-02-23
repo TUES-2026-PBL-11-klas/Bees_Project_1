@@ -1,0 +1,7 @@
+#This file is for faster build times
+
+__pycache__
+.git
+.env
+*.pyc
+.venv
