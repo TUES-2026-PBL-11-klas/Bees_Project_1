@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from typing import List
-from Application.Schemas.user_schema import UserCreate, UserResponse
+from Application.Schemas.user import UserCreate, UserResponse
 
 router = APIRouter(prefix="/users", tags=["users"])
 
