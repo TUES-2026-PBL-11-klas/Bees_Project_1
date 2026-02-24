@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from datetime import datetime
-from Database.base import Base
+from Application.Database.base import Base
 class Recipe(Base):
     __tablename__ = "recipes"
 

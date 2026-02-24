@@ -1,7 +1,6 @@
 from sqlalchemy import Column, Integer, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
-from Database.base import Base
-
+from Application.Database.base import Base
 class UserFavorite(Base):
     __tablename__ = "user_favorites"
 
