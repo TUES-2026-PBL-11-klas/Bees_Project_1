@@ -1,8 +1,6 @@
 services:
   backend:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
     container_name: clevercookin_backend
     ports:
       - "8000:8000"
@@ -14,8 +12,11 @@ services:
     volumes:
       - .:/app
     restart: always
-    networks:
-      - clevercookin_network
+    command: >
+      sh -c "
+        alembic upgrade head &&
+        uvicorn Application.main:app --host 0.0.0.0 --port 8000
+      "
 
   db:
     image: postgres:15
@@ -30,15 +31,10 @@ services:
       - postgres_data:/var/lib/postgresql/data
     restart: always
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d clevercookin"]
       interval: 5s
       timeout: 5s
       retries: 5
-    networks:
-      - clevercookin_network
 
 volumes:
   postgres_data:
-
-networks:
-  clevercookin_network:
