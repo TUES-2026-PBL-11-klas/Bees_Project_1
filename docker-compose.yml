@@ -1,16 +1,21 @@
 services:
   backend:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: clevercookin_backend
     ports:
       - "8000:8000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     env_file:
       - .env
     volumes:
       - .:/app
     restart: always
+    networks:
+      - clevercookin_network
 
   db:
     image: postgres:15
@@ -29,6 +34,11 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - clevercookin_network
 
 volumes:
   postgres_data:
+
+networks:
+  clevercookin_network:
