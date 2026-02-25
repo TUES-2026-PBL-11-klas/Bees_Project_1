@@ -9,4 +9,4 @@ How to run migrations:
 docker compose exec backend alembic upgrade head
 
 How to trigger GitHub Actions:
-Actions -> Run 
+Actions -> Run workflow
