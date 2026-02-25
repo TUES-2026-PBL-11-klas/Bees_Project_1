@@ -6,24 +6,25 @@ from pathlib import Path
 BASE_DIR = Path(__file__).parent.parent.parent
 
 class Settings(BaseSettings):
-    postgres_user: str
-    postgres_password: str
-    postgres_db: str
-    postgres_host: str
-    postgres_port: int
-    
+    POSTGRES_USER: str
+    POSTGRES_PASSWORD: str
+    POSTGRES_DB: str
+    POSTGRES_HOST: str
+    POSTGRES_PORT: int
+
     @property
     def DATABASE_URL(self) -> str:
         return (
-            f"postgresql://{self.postgres_user}:"
-            f"{self.postgres_password}@"
-            f"{self.postgres_host}:"
-            f"{self.postgres_port}/"
-            f"{self.postgres_db}"
+            f"postgresql+psycopg2://{self.POSTGRES_USER}:"
+            f"{self.POSTGRES_PASSWORD}@"
+            f"{self.POSTGRES_HOST}:"
+            f"{self.POSTGRES_PORT}/"
+            f"{self.POSTGRES_DB}"
         )
 
     model_config = SettingsConfigDict(
-        extra="ignore"
+        extra="ignore",
+        env_file=".env"
     )
 
 settings = Settings()
