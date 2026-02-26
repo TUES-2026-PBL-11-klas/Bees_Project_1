@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="text-3xl font-bold mb-10 text-center">Recipe Results</h2>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+{% for recipe in recipes %}
+
+<div class="bg-white/40 dark:bg-gray-800/40 backdrop-blur-lg p-6 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition duration-300 relative">
+
+    <button class="absolute top-4 right-4 text-red-500 dark:text-red-400 hover:scale-125 transition">
+        ❤️
+    </button>
+
+    <h3 class="text-xl font-bold mb-2 dark:text-white">{{ recipe.name }}</h3>
+
+    <p class="text-gray-600 dark:text-gray-300 mb-4">
+        {{ recipe.description }}
+    </p>
+
+    <div class="mb-4">
+        <p class="font-semibold">Ingredients:</p>
+        <div class="flex flex-wrap gap-2 mt-2">
+            {% for ing in recipe.ingredients %}
+            <span class="bg-green-200 dark:bg-green-700 px-3 py-1 rounded-full text-sm text-gray-800 dark:text-white">
+                {{ ing }}
+            </span>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% if recipe.missing|length == 0 %}
+        <p class="text-green-600 dark:text-green-400 font-bold">✅ Ready to cook!</p>
+    {% else %}
+        <p class="text-red-600 dark:text-red-400 font-semibold">Missing:</p>
+        <div class="flex flex-wrap gap-2 mt-2">
+            {% for m in recipe.missing %}
+            <span class="bg-red-200 dark:bg-red-700 px-3 py-1 rounded-full text-sm text-gray-800 dark:text-white">
+                {{ m }}
+            </span>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

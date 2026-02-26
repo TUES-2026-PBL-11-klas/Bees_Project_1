@@ -1,10 +1,9 @@
 from fastapi import FastAPI
-from Application.APIs.routers import api_router
+from fastapi.staticfiles import StaticFiles
+from Application.APIs.routers import router
 
-app = FastAPI(title="CleverCookin")
+app = FastAPI()
 
-app.include_router(api_router)
+app.mount("/static", StaticFiles(directory="Application/Static"), name="static")
 
-@app.get("/health")
-def health():
-    return {"status": "ok"}
+app.include_router(router)

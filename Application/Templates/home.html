@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="text-center mb-12">
+
+    <h2 class="text-5xl font-extrabold mb-4 text-green-800 dark:text-green-300 animate-fadeIn">
+        What can I cook today?
+    </h2>
+
+    <p class="text-lg text-gray-700 dark:text-gray-300">
+        Enter your ingredients and let AI magic happen ✨
+    </p>
+
+</div>
+
+<div class="max-w-2xl mx-auto bg-white/40 dark:bg-gray-800/40 backdrop-blur-lg p-8 rounded-2xl shadow-xl transition hover:scale-105 duration-300">
+
+    <form method="post" action="/search" class="space-y-6">
+
+        <input type="text"
+               name="ingredients"
+               placeholder="eggs, milk, cheese"
+               class="w-full p-4 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-300 focus:ring-2 focus:ring-green-500">
+
+        <button class="w-full bg-green-600 dark:bg-green-500 text-white dark:text-white py-4 rounded-xl text-lg font-bold hover:bg-green-700 dark:hover:bg-green-600 transition">
+            🔍 Search Recipes
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

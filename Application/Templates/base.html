@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CleverCookin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body class="bg-gradient-to-br from-green-100 to-emerald-200 dark:from-gray-900 dark:to-gray-800 transition-all duration-500">
+
+<nav class="backdrop-blur-md bg-white/30 dark:bg-gray-900/40 shadow-lg p-4 flex justify-between items-center">
+
+    <h1 class="text-2xl font-bold text-green-700 dark:text-green-400">
+        🍳 CleverCookin
+    </h1>
+
+    <div class="flex gap-6 items-center">
+        <a href="/" class="text-gray-800 dark:text-gray-200 hover:text-green-600 dark:hover:text-green-400">Home</a>
+        <a href="/add-recipe" class="text-gray-800 dark:text-gray-200 hover:text-green-600 dark:hover:text-green-400">Add Recipe</a>
+        <a href="/profile" class="text-gray-800 dark:text-gray-200 hover:text-green-600 dark:hover:text-green-400">Profile</a>
+
+        <button onclick="toggleDarkMode()"
+                class="bg-green-600 dark:bg-green-500 text-white px-3 py-1 rounded-lg hover:bg-green-700 dark:hover:bg-green-600">
+            🌙
+        </button>
+    </div>
+</nav>
+
+<div class="container mx-auto px-6 py-10">
+    {% block content %}{% endblock %}
+</div>
+
+<footer class="text-center py-6 text-gray-600 dark:text-gray-400">
+    CleverCookin © 2026 | Made by Team Pchelichkite 🐝
+</footer>
+
+<script>
+function toggleDarkMode(){
+    document.documentElement.classList.toggle('dark');
+}
+</script>
+
+</body>
+</html>
