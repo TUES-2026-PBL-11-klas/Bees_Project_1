@@ -3,11 +3,10 @@ from fastapi import APIRouter, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
-from fastapi import APIRouter
 from Application.APIs.users import router as users_router
 from Application.APIs import users, recipes
 
-router = APIRouter()
+api_router = APIRouter()
 templates = Jinja2Templates(directory="Application/Templates")
 
 
@@ -31,12 +30,12 @@ recipes_db = [
 ]
 
 
-@router.get("/", response_class=HTMLResponse)
+@api_router.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     return templates.TemplateResponse("home.html", {"request": request})
 
 
-@router.post("/search", response_class=HTMLResponse)
+@api_router.post("/search", response_class=HTMLResponse)
 async def search(request: Request, ingredients: str = Form(...)):
 
     user_ingredients = [i.strip().lower() for i in ingredients.split(",")]
@@ -61,12 +60,12 @@ async def search(request: Request, ingredients: str = Form(...)):
     })
 
 
-@router.get("/add-recipe", response_class=HTMLResponse)
+@api_router.get("/add-recipe", response_class=HTMLResponse)
 async def add_recipe_page(request: Request):
     return templates.TemplateResponse("add_recipe.html", {"request": request})
 
 
-@router.get("/profile", response_class=HTMLResponse)
+@api_router.get("/profile", response_class=HTMLResponse)
 async def profile_page(request: Request):
     return templates.TemplateResponse("profile.html", {"request": request})
 

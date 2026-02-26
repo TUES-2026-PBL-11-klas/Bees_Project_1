@@ -1,13 +1,13 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from Application.APIs.routers import router
+from Application.APIs.routers import api_router
 
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="Application/Static"), name="static")
 
 
-app.include_router(router)
+app.include_router(api_router)
 
 @app.get("/health")
 def health():
