@@ -1,6 +1,11 @@
+
 from fastapi import APIRouter, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+
+from fastapi import APIRouter
+from Application.APIs.users import router as users_router
+from Application.APIs import users, recipes
 
 router = APIRouter()
 templates = Jinja2Templates(directory="Application/Templates")
@@ -64,3 +69,7 @@ async def add_recipe_page(request: Request):
 @router.get("/profile", response_class=HTMLResponse)
 async def profile_page(request: Request):
     return templates.TemplateResponse("profile.html", {"request": request})
+
+api_router.include_router(users.router)
+api_router.include_router(recipes.router)
+
