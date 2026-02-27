@@ -3,9 +3,13 @@ from fastapi.staticfiles import StaticFiles
 from Application.APIs.routers import api_router
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
+from Application.Database.base import Base
+from Application.Database.session import engine
+from Application.APIs.users import router as users_router
+
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
-
 
 origins = [
     "http://localhost",
@@ -26,6 +30,7 @@ app.mount("/static", StaticFiles(directory="Application/Static"), name="static")
 templates = Jinja2Templates(directory="Application/Templates")
 
 app.include_router(api_router)
+app.include_router(users_router)
 
 @app.get("/health")
 def health():
