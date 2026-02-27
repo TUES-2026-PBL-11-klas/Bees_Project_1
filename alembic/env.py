@@ -5,11 +5,7 @@ sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__f
 from logging.config import fileConfig
 from Application.Database.session import engine_write
 from alembic import context
-from Application.Database.base import Base
-from Application.Database import models
-from Application.Database.models import Base 
-from Application.Database.session import engine_write
-target_metadata = Base.metadata
+from Application.Database.models import Base
 
 config = context.config
 

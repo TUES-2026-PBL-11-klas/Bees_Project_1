@@ -1,21 +1,16 @@
 import time
 from pathlib import Path
-
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import OperationalError
-
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-
 BASE_DIR = Path(__file__).parent.parent.parent
-
 
 class Settings(BaseSettings):
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
     POSTGRES_DB: str
-    
     POSTGRES_HOST: str = "db"
     POSTGRES_REPLICA_HOST: str = "db-replica" 
     POSTGRES_PORT: int = 5432
@@ -40,11 +35,14 @@ class Settings(BaseSettings):
             f"{self.POSTGRES_DB}"
         )
 
+    @property
+    def DATABASE_URL(self) -> str:
+        return self.DATABASE_WRITE_URL
+
     model_config = SettingsConfigDict(
         extra="ignore",
         env_file=".env"
     )
-
 
 settings = Settings()
 
@@ -58,6 +56,7 @@ engine_write = create_engine(
 
 engine_read = create_engine(
     settings.DATABASE_READ_URL,
+    echo=True,
     pool_size=10,
     max_overflow=20,
     pool_timeout=30,
@@ -70,30 +69,17 @@ SessionRead = sessionmaker(autocommit=False, autoflush=False, bind=engine_read)
 def create_engine_with_retry(retries: int = 15, delay: int = 2):
     for attempt in range(1, retries + 1):
         try:
-            engine = create_engine(
-                settings.DATABASE_URL,
-                pool_pre_ping=True
-            )
-            with engine.connect():
-                pass
-            return engine
+            with engine_write.connect() as conn:
+                return engine_write
         except OperationalError:
             time.sleep(delay)
-
-    raise Exception("Could not connect to database")
-
+    raise Exception("Could not connect to primary database")
 
 engine = create_engine_with_retry()
-
-SessionLocal = sessionmaker(
-    autocommit=False,
-    autoflush=False,
-    bind=engine
-)
-
+engine_write = engine
+SessionLocal = SessionWrite
 
 def get_db():
-    """Use for POST, PUT, DELETE (Write operations)"""
     db = SessionWrite()
     try:
         yield db
@@ -101,11 +87,8 @@ def get_db():
         db.close()
 
 def get_read_db():
-    """Use for GET (Read operations)"""
     db = SessionRead()
     try:
         yield db
     finally:
         db.close()
-        
-engine = engine_write

@@ -1,15 +1,12 @@
-import os
-from pydantic_settings import BaseSettings
+from Application.Database.session import settings as db_settings
 
-class Settings(BaseSettings):
-    POSTGRES_USER: str = os.getenv("POSTGRES_USER", "postgres")
-    POSTGRES_PASSWORD: str = os.getenv("POSTGRES_PASSWORD", "postgres")
-    POSTGRES_DB: str = os.getenv("POSTGRES_DB", "bees_db")
-    POSTGRES_HOST: str = os.getenv("POSTGRES_HOST", "localhost")
-    POSTGRES_PORT: str = os.getenv("POSTGRES_PORT", "5432")
-
-    @property
-    def DATABASE_URL(self) -> str:
-        return f"postgresql+psycopg2://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+class Settings:
+    DATABASE_URL = db_settings.DATABASE_WRITE_URL
+    DATABASE_READ_URL = db_settings.DATABASE_READ_URL
+    POSTGRES_USER = db_settings.POSTGRES_USER
+    POSTGRES_PASSWORD = db_settings.POSTGRES_PASSWORD
+    POSTGRES_DB = db_settings.POSTGRES_DB
+    POSTGRES_HOST = db_settings.POSTGRES_HOST
+    POSTGRES_PORT = db_settings.POSTGRES_PORT
 
 settings = Settings()
