@@ -10,3 +10,6 @@ docker compose exec backend alembic upgrade head
 
 How to trigger GitHub Actions:
 Actions -> Run workflow
+
+We had made the profile page, add recipe page and the recipes to show adn everything but didnt save them 
+so when I made other changes i lost them :(, sadly thats all we can present
