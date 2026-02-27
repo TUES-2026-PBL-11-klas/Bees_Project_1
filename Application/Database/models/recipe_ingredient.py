@@ -1,6 +1,7 @@
-from sqlalchemy import Column, Integer, Float, ForeignKey, UniqueConstraint
+from sqlalchemy import Column, Integer, Float, ForeignKey, UniqueConstraint, Index
 from sqlalchemy.orm import relationship
 from Application.Database.base import Base
+
 class RecipeIngredient(Base):
     __tablename__ = "recipe_ingredients"
 
@@ -11,6 +12,8 @@ class RecipeIngredient(Base):
 
     __table_args__ = (
         UniqueConstraint("recipe_id", "ingredient_id"),
+        Index("idx_recipeingredient_recipe_id", "recipe_id"),
+        Index("idx_recipeingredient_ingredient_id", "ingredient_id"),
     )
 
     recipe = relationship("Recipe", back_populates="ingredients")

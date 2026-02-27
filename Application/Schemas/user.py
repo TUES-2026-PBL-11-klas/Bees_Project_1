@@ -14,9 +14,12 @@ class UserUpdate(BaseModel):
     username: Optional[str] = Field(None, min_length=3, max_length=50)
     email: Optional[EmailStr]
 
-class UserResponse(UserBase):
+class UserResponse(BaseModel):
     id: int
-    created_at: Optional[datetime]
+    email: str
+    username: str
+    created_at: datetime
 
-    class Config:
-        orm_mode = True
+    model_config = {
+        "from_attributes": True
+    }
