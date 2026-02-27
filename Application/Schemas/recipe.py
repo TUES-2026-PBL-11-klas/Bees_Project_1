@@ -3,26 +3,43 @@ from typing import List, Optional
 from datetime import datetime
 
 
+class IngredientInput(BaseModel):
+    name: str = Field(..., min_length=1)
+    quantity: float = Field(..., gt=0)
+
+
 class RecipeBase(BaseModel):
-    title: str = Field(..., min_length=3, max_length=100)
-    description: str = Field(..., min_length=5)
-    ingredients: List[str]
+    title: str = Field(..., min_length=3, max_length=255)
+    description: Optional[str] = None
+    instructions: str = Field(..., min_length=5)
 
 
 class RecipeCreate(RecipeBase):
-    pass
+    ingredients: List[IngredientInput]
 
 
 class RecipeUpdate(BaseModel):
-    title: Optional[str]
-    description: Optional[str]
-    ingredients: Optional[List[str]]
+    title: Optional[str] = None
+    description: Optional[str] = None
+    instructions: Optional[str] = None
+    ingredients: Optional[List[IngredientInput]] = None
 
 
-class RecipeResponse(RecipeBase):
-    id: int
-    owner_id: int
-    created_at: Optional[datetime]
+class IngredientResponse(BaseModel):
+    name: str
+    quantity: float
 
     class Config:
-        orm_mode = True
+        from_attributes = True
+
+
+class RecipeResponse(BaseModel):
+    id: int
+    title: str
+    description: Optional[str]
+    instructions: str
+    created_at: Optional[datetime]
+    ingredients: List[IngredientResponse]
+
+    class Config:
+        from_attributes = True
