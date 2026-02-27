@@ -10,6 +10,13 @@
             darkMode: 'class'
         }
     </script>
+    <script>
+        const savedTheme = localStorage.getItem("theme");
+
+        if (savedTheme === "dark") {
+            document.documentElement.classList.add("dark");
+        }
+    </script>
 
     <link rel="stylesheet" href="/static/style.css">
 </head>
@@ -44,7 +51,13 @@
 
 <script>
 function toggleDarkMode(){
-    document.documentElement.classList.toggle('dark');
+    const isDark = document.documentElement.classList.toggle('dark');
+
+    if (isDark) {
+        localStorage.setItem("theme", "dark");
+    } else {
+        localStorage.setItem("theme", "light");
+    }
 }
 </script>
 
