@@ -1,11 +1,29 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from Application.APIs.routers import api_router
+from fastapi.templating import Jinja2Templates
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+
+origins = [
+    "http://localhost",
+    "http://localhost:5500",
+    "http://127.0.0.1:5500",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 app.mount("/static", StaticFiles(directory="Application/Static"), name="static")
 
+templates = Jinja2Templates(directory="Application/Templates")
 
 app.include_router(api_router)
 
@@ -14,5 +32,5 @@ def health():
     return {"status": "ok"}
 
 @app.get("/")
-def root():
-    return {"message": "CleverCookin API is running"}
+def home(request: Request):
+    return templates.TemplateResponse("home.html", {"request": request})

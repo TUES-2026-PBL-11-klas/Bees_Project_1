@@ -1,9 +1,7 @@
-
 from fastapi import APIRouter, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
-from Application.APIs.users import router as users_router
 from Application.APIs import users, recipes
 
 api_router = APIRouter()
@@ -30,7 +28,7 @@ recipes_db = [
 ]
 
 
-@api_router.get("/", response_class=HTMLResponse)
+@api_router.get("/home", response_class=HTMLResponse)
 async def home(request: Request):
     return templates.TemplateResponse("home.html", {"request": request})
 

@@ -21,3 +21,9 @@ httpx
 # Security
 passlib[bcrypt]
 python-jose[cryptography]
+
+#Templates
+jinja2
+
+#Uploads
+python-multipart
