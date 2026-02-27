@@ -6,6 +6,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from Application.Database.base import Base
 from Application.Database.session import engine_write
 from Application.APIs.users import router as users_router
+from Application.APIs.recipes import router as recipes_router
+
 
 Base.metadata.create_all(bind=engine_write)
 
@@ -31,6 +33,8 @@ templates = Jinja2Templates(directory="Application/Templates")
 
 app.include_router(api_router)
 app.include_router(users_router)
+app.include_router(recipes_router)
+
 
 @app.get("/health")
 def health():
