@@ -3,16 +3,14 @@ import os
 sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "Application"))
 
 from logging.config import fileConfig
-
-from Application.Database.session import engine
-
+from Application.Database.session import engine_write
 from alembic import context
-
 from Application.Database.base import Base
-target_metadata = Base.metadata
 from Application.Database import models
+from Application.Database.models import Base 
+from Application.Database.session import engine_write
+target_metadata = Base.metadata
 
-# this is the Alembic Config object, which provides access to the values within the .ini file in use.
 config = context.config
 
 if config.config_file_name is not None:
@@ -21,7 +19,7 @@ if config.config_file_name is not None:
 target_metadata = Base.metadata
 
 def run_migrations_offline() -> None:
-    url = str(engine.url)
+    url = str(engine_write.url)
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -32,10 +30,8 @@ def run_migrations_offline() -> None:
     with context.begin_transaction():
         context.run_migrations()
 
-
 def run_migrations_online() -> None:
-    
-    connectable = engine
+    connectable = engine_write
 
     with connectable.connect() as connection:
         context.configure(
@@ -45,7 +41,6 @@ def run_migrations_online() -> None:
 
         with context.begin_transaction():
             context.run_migrations()
-
 
 if context.is_offline_mode():
     run_migrations_offline()

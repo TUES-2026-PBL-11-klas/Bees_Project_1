@@ -4,3 +4,10 @@ from .recipe import Recipe
 from .recipe_ingredient import RecipeIngredient
 from .user_ingredient import UserIngredient
 from .user_favorite import UserFavorite
+from Application.Database.base import Base
+from Application.Database.models.user import User
+from Application.Database.models.recipe import Recipe
+from Application.Database.models.ingredient import Ingredient
+from Application.Database.models.recipe_ingredient import RecipeIngredient
+from Application.Database.models.user_favorite import UserFavorite
+from Application.Database.models.user_ingredient import UserIngredient

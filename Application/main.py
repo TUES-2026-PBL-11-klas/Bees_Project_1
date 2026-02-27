@@ -4,10 +4,10 @@ from Application.APIs.routers import api_router
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 from Application.Database.base import Base
-from Application.Database.session import engine
+from Application.Database.session import engine_write
 from Application.APIs.users import router as users_router
 
-Base.metadata.create_all(bind=engine)
+Base.metadata.create_all(bind=engine_write)
 
 app = FastAPI()
 

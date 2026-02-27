@@ -19,16 +19,19 @@ services:
       "
 
   db:
-    image: postgres:15
+    image: bitnami/postgresql:latest
     container_name: clevercookin_db
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: clevercookin
     ports:
       - "5432:5432"
+    environment:
+      - POSTGRESQL_DATABASE=clevercookin
+      - POSTGRESQL_USERNAME=postgres
+      - POSTGRESQL_PASSWORD=postgres
+      - POSTGRESQL_REPLICATION_MODE=master
+      - POSTGRESQL_REPLICATION_USER=repl_user
+      - POSTGRESQL_REPLICATION_PASSWORD=repl_password
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/bitnami/postgresql
     restart: always
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d clevercookin"]
@@ -36,5 +39,25 @@ services:
       timeout: 5s
       retries: 5
 
+  db-replica:
+    image: bitnami/postgresql:latest
+    container_name: clevercookin_db_replica
+    ports:
+      - "5433:5432"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - POSTGRESQL_PASSWORD=postgres
+      - POSTGRESQL_MASTER_HOST=db
+      - POSTGRESQL_MASTER_PORT_NUMBER=5432
+      - POSTGRESQL_REPLICATION_MODE=slave
+      - POSTGRESQL_REPLICATION_USER=repl_user
+      - POSTGRESQL_REPLICATION_PASSWORD=repl_password
+    volumes:
+      - postgres_replica_data:/bitnami/postgresql
+    restart: always
+
 volumes:
   postgres_data:
+  postgres_replica_data:
